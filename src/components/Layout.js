@@ -9,25 +9,31 @@ const Layout = ({ children }) => {
   const toggleTheme = () => setDarkMode(!darkMode);
 
   return (
-    <div className={`flex ${darkMode ? "dark" : ""}`}>
-      <Sidebar
-        isCollapsed={isCollapsed}
-        setIsCollapsed={setIsCollapsed}
-        darkMode={darkMode}  
-      />
-
-      <div
-        className={`flex-grow transition-all duration-300 ${
-          isCollapsed ? "ml-16" : "ml-64"
-        }`}
-      >
-        <Header
-          darkMode={darkMode}
-          toggleTheme={toggleTheme}
+    <div className={`${darkMode ? "dark" : ""}`}>
+      <div className="flex">
+        <Sidebar
           isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+          darkMode={darkMode}
         />
 
-        <main className="pt-20 p-4">{children}</main>
+        <div
+          className={`flex-grow transition-all duration-300 ${
+            isCollapsed ? "ml-16" : "ml-64"
+          }`}
+        >
+          <Header
+            darkMode={darkMode}
+            toggleTheme={toggleTheme}
+            isCollapsed={isCollapsed}
+          />
+
+          <main
+            className="pt-20 p-4 bg-white dark:bg-gray-900 min-h-screen"
+          >
+            {React.cloneElement(children, { darkMode })}
+          </main>
+        </div>
       </div>
     </div>
   );
