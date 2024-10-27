@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import Modal from "../components/Modal";
+import AddTaskModal from "../components/AddTaskModal"; 
 
 const dummyTasks = [
   {
@@ -31,27 +31,15 @@ const Home = ({ darkMode }) => {
   const [tasks, setTasks] = useState(dummyTasks);
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newTask, setNewTask] = useState({
-    title: "",
-    deadline: "",
-    priority: "Medium",
-  });
 
-  const handleAddTask = () => {
-    if (newTask.title === "" || newTask.deadline === "") {
-      alert("Please provide a task title and deadline.");
-      return;
-    }
-
+  const addTask = (task) => {
     const taskToAdd = {
-      ...newTask,
+      ...task,
       id: tasks.length + 1,
       status: "Pending",
     };
 
     setTasks([...tasks, taskToAdd]);
-    setIsModalOpen(false);
-    setNewTask({ title: "", deadline: "", priority: "Medium" });
   };
 
   const tasksOnSelectedDate = tasks.filter(
@@ -62,45 +50,12 @@ const Home = ({ darkMode }) => {
 
   return (
     <div className={`p-6 bg-gray-100 dark:bg-gray-900 min-h-screen`}>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <h2 className="text-2xl font-bold mb-4">Add New Task</h2>
-        <input
-          type="text"
-          placeholder="Task Title"
-          value={newTask.title}
-          onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-          className="w-full p-2 mb-4 rounded-md border border-gray-300 dark:bg-gray-800 dark:text-white"
-        />
-        <input
-          type="date"
-          value={newTask.deadline}
-          onChange={(e) => setNewTask({ ...newTask, deadline: e.target.value })}
-          className="w-full p-2 mb-4 rounded-md border border-gray-300 dark:bg-gray-800 dark:text-white"
-        />
-        <select
-          value={newTask.priority}
-          onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
-          className="w-full p-2 mb-4 rounded-md border border-gray-300 dark:bg-gray-800 dark:text-white"
-        >
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-        <div className="flex justify-end space-x-4">
-          <button
-            onClick={() => setIsModalOpen(false)}
-            className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleAddTask}
-            className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600"
-          >
-            Add Task
-          </button>
-        </div>
-      </Modal>
+      {/* Add Task Modal */}
+      <AddTaskModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        addTask={addTask}
+      />
 
       {/* Header Section */}
       <div className="flex justify-between items-center mb-6">
