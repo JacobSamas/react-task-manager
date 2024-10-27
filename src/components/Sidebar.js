@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import {
-  FaHome,
-  FaTasks,
-  FaSignInAlt,
-  FaSignOutAlt,
-  FaArrowLeft,
-  FaArrowRight,
-} from "react-icons/fa";
+import { FaHome, FaTasks, FaSignInAlt, FaSignOutAlt, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; 
 
 const Sidebar = ({ isCollapsed, setIsCollapsed, darkMode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate(); 
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -22,9 +17,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, darkMode }) => {
   return (
     <div
       className={`${
-        darkMode
-          ? "bg-gray-900 text-gray-300"
-          : "bg-gray-100 text-gray-900"
+        darkMode ? "bg-gray-900 text-gray-300" : "bg-gray-100 text-gray-900"
       } transition-all ease-in-out duration-500 h-screen fixed top-0 left-0 ${
         isCollapsed ? "w-16" : "w-64"
       } flex flex-col`}
@@ -34,7 +27,9 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, darkMode }) => {
         onClick={toggleSidebar}
         aria-label="Toggle Sidebar"
         className={`p-1 absolute -right-4 top-4 ${
-          darkMode ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-300 hover:bg-gray-400 text-black"
+          darkMode
+            ? "bg-gray-700 hover:bg-gray-600 text-white"
+            : "bg-gray-300 hover:bg-gray-400 text-black"
         } rounded-full transition-colors duration-300 focus:outline-none h-8 w-8 flex items-center justify-center z-[100]`}
         style={{ zIndex: 100 }}
       >
@@ -63,12 +58,22 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, darkMode }) => {
       <hr className={`${darkMode ? "border-gray-600" : "border-gray-300"} my-4`} />
 
       <nav className="flex flex-col space-y-2">
-        <NavItem isCollapsed={isCollapsed} icon={<FaHome />} label="Home" darkMode={darkMode} />
+        {/* Home NavItem */}
+        <NavItem
+          isCollapsed={isCollapsed}
+          icon={<FaHome />}
+          label="Home"
+          darkMode={darkMode}
+          onClick={() => navigate("/")} 
+        />
+
+        {/* My Tasks NavItem */}
         <NavItem
           isCollapsed={isCollapsed}
           icon={<FaTasks />}
           label="My Tasks"
           darkMode={darkMode}
+          onClick={() => navigate("/my-tasks")} 
         />
 
         <hr className={`${darkMode ? "border-gray-600" : "border-gray-300"} my-8`} />
@@ -88,7 +93,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, darkMode }) => {
 const NavItem = ({ icon, label, isCollapsed, onClick, darkMode }) => {
   return (
     <button
-      onClick={onClick}
+      onClick={onClick} 
       className={`group relative flex items-center p-3 text-left w-full transition-colors duration-300 focus:outline-none ${
         darkMode
           ? "hover:bg-gray-700 text-gray-300"

@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "./components/Layout";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home"; 
+import MyTaskPage from "./pages/MyTaskPage";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 
@@ -22,6 +23,7 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />  
+          <Route path="/my-tasks" element={<MyTaskPage />} />
           <Route path="*" element={<h2>404 - Page Not Found</h2>} /> 
         </Routes>
       </Layout>
